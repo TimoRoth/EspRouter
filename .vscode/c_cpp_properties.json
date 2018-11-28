@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "default",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/../RIOT/**",
+                "${workspaceFolder}/../../esp/**"
+            ],
+            "defines": [
+                "UHCP_SERVER", "BR_IPV6_PREFIX=\"\"", "BR_IPV6_PREFIX_LEN=64"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

@@ -12,11 +12,9 @@ RIOTBASE ?= $(CURDIR)/../RIOT
 # Router modules and settings
 USEMODULE += gnrc_netdev_default auto_init_gnrc_netif
 USEMODULE += gnrc_ipv6_nib_6lbr gnrc_ipv6_router_default
-USEMODULE += fib
+USEMODULE += fib netopt
 USEMODULE += gnrc_icmpv6_echo
-
-EXTERNAL_MODULE_DIRS += $(CURDIR)/uhcpd
-USEMODULE += uhcpd
+USEMODULE += gnrc_sock_udp
 
 # ESP NOW
 CFLAGS += -DESP_NOW_SOFT_AP_PASS=\"ThisistheRIOTporttoESP\" -DESP_NOW_CHANNEL=6
