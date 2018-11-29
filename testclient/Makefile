@@ -1,20 +1,17 @@
 # name of your application
-APPLICATION = esp32_border_router
+APPLICATION = espnow_test_client
 
-# This program is specifically for the esp32-olimex-gateway
-BOARD := esp32-olimex-evb
-USEMODULE += olimex_esp32_gateway
-GNRC_NETIF_NUMOF := 2
+# Any esp8266 and esp32 board should work here
+BOARD := wittycloud
 
 # This has to be the absolute path to the RIOT base directory:
-RIOTBASE ?= $(CURDIR)/../RIOT
+RIOTBASE ?= $(CURDIR)/../../RIOT
 
-# Router modules and settings
 USEMODULE += gnrc_netdev_default auto_init_gnrc_netif
-USEMODULE += gnrc_ipv6_nib_6lbr gnrc_ipv6_router_default gnrc_rpl
-USEMODULE += fib netopt
+USEMODULE += gnrc_ipv6_nib_6ln
 USEMODULE += gnrc_icmpv6_echo
 USEMODULE += gnrc_sock_udp
+USEMODULE += gcoap
 
 # ESP NOW
 CFLAGS += -DESP_NOW_SOFT_AP_PASS=\"ThisistheRIOTporttoESP\" -DESP_NOW_CHANNEL=6
@@ -33,10 +30,5 @@ CFLAGS += -DDEBUG_ASSERT_VERBOSE
 
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 1
-
-IPV6_PREFIX ?= fd19:f3f4:cd51:3af7::
-IPV6_ADDR ?= fd19:f3f4:cd51:3af6::1
-IPV6_ADDR_LEN ?= 64
-CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\" -DBR_IPV6_ADDR=\"$(IPV6_ADDR)\" -DBR_IPV6_ADDR_LEN=$(IPV6_ADDR_LEN)
 
 include $(RIOTBASE)/Makefile.include

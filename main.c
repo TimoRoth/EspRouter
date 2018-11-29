@@ -4,6 +4,7 @@
 #include <net/gnrc/ipv6.h>
 #include <net/gnrc/netapi.h>
 #include <net/gnrc/netif.h>
+#include <net/gnrc/rpl.h>
 #include <net/ipv6/addr.h>
 #include <net/netdev.h>
 #include <net/netopt.h>
@@ -36,6 +37,9 @@ static void set_ips(void)
         } else if (!wireless_interface && is_wired != 1) {
             ipv6_addr_from_str(&addr, BR_IPV6_PREFIX "1");
             gnrc_netif_ipv6_addr_add(netif, &addr, 64, 0);
+	    gnrc_ipv6_nib_abr_add(&addr);
+	    gnrc_rpl_init(wireless_interface->pid);
+	    gnrc_rpl_root_init(GNRC_RPL_DEFAULT_INSTANCE, &addr, false, false);
             gnrc_ipv6_nib_change_rtr_adv_iface(netif, true);
             wireless_interface = netif;
 	    printf("Set wireless IP data.\n");
