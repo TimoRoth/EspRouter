@@ -23,6 +23,8 @@ USEMODULE += esp_now
 # Shell
 USEMODULE += ps shell shell_commands
 
+USEMODULE += xtimer
+
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the
 # development process:
@@ -33,7 +35,8 @@ CFLAGS += -DDEBUG_ASSERT_VERBOSE
 QUIET ?= 1
 
 IPV6_PREFIX ?= fd19:f3f4:cd51:3af7::
-IPV6_PREFIX_LEN ?= 64
-CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\" -DBR_IPV6_PREFIX_LEN=$(IPV6_PREFIX_LEN)
+IPV6_ADDR ?= fd19:f3f4:cd51:3af6::1
+IPV6_ADDR_LEN ?= 64
+CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\" -DBR_IPV6_ADDR=\"$(IPV6_ADDR)\" -DBR_IPV6_ADDR_LEN=$(IPV6_ADDR_LEN)
 
 include $(RIOTBASE)/Makefile.include
