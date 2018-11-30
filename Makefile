@@ -11,10 +11,10 @@ RIOTBASE ?= $(CURDIR)/../RIOT
 
 # Router modules and settings
 USEMODULE += gnrc_netdev_default auto_init_gnrc_netif
-USEMODULE += gnrc_ipv6_nib_6lbr gnrc_ipv6_router_default gnrc_rpl auto_init_gnrc_rpl
+USEMODULE += gnrc_sixlowpan_border_router_default
+USEMODULE += gnrc_rpl auto_init_gnrc_rpl
 USEMODULE += fib netopt
 USEMODULE += gnrc_icmpv6_echo
-USEMODULE += gnrc_sock_udp
 
 # ESP NOW
 CFLAGS += -DESP_NOW_SOFT_AP_PASS=\"ThisistheRIOTporttoESP\" -DESP_NOW_CHANNEL=6
@@ -22,8 +22,6 @@ USEMODULE += esp_now
 
 # Shell
 USEMODULE += ps shell shell_commands
-
-USEMODULE += xtimer
 
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the
@@ -34,9 +32,13 @@ CFLAGS += -DDEBUG_ASSERT_VERBOSE
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 1
 
-IPV6_PREFIX ?= fd19:f3f4:cd51:3af7::
-IPV6_ADDR ?= fd19:f3f4:cd51:3af6::1
+# Prefix has to be /64
+IPV6_PREFIX ?= fd19:ffff::
+# Outer address of the router and the length of its prefix
+IPV6_ADDR ?= fd19:aaaa::1
 IPV6_ADDR_LEN ?= 64
-CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\" -DBR_IPV6_ADDR=\"$(IPV6_ADDR)\" -DBR_IPV6_ADDR_LEN=$(IPV6_ADDR_LEN)
+IPV6_DEF_RT ?= fd19:aaaa::2
+# Pass as CFLAGS to program
+CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\" -DBR_IPV6_ADDR=\"$(IPV6_ADDR)\" -DBR_IPV6_ADDR_LEN=$(IPV6_ADDR_LEN) -DBR_IPV6_DEF_RT=\"$(IPV6_DEF_RT)\"
 
 include $(RIOTBASE)/Makefile.include
