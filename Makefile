@@ -11,7 +11,7 @@ RIOTBASE ?= $(CURDIR)/../RIOT
 
 # Router modules and settings
 USEMODULE += gnrc_netdev_default auto_init_gnrc_netif
-USEMODULE += gnrc_ipv6_nib_6lbr gnrc_ipv6_router_default gnrc_rpl
+USEMODULE += gnrc_ipv6_nib_6lbr gnrc_ipv6_router_default gnrc_rpl auto_init_gnrc_rpl
 USEMODULE += fib netopt
 USEMODULE += gnrc_icmpv6_echo
 USEMODULE += gnrc_sock_udp

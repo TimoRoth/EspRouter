@@ -29,18 +29,33 @@ static void set_ips(void)
         ipv6_addr_t addr;
 
         if (!border_interface && is_wired == 1) {
+            // Add configured address
             ipv6_addr_from_str(&addr, BR_IPV6_ADDR);
             gnrc_netif_ipv6_addr_add(netif, &addr, BR_IPV6_ADDR_LEN, 0);
+
+	    // Disable router adveritsements on external interface
             gnrc_ipv6_nib_change_rtr_adv_iface(netif, false);
+	
             border_interface = netif;
 	    printf("Set wired IP data.\n");
         } else if (!wireless_interface && is_wired != 1) {
+            // Add ::1 address on defined prefix
             ipv6_addr_from_str(&addr, BR_IPV6_PREFIX "1");
             gnrc_netif_ipv6_addr_add(netif, &addr, 64, 0);
+
+            // Add as authoritative border router
 	    gnrc_ipv6_nib_abr_add(&addr);
+
+            // Configure RPL
 	    gnrc_rpl_init(wireless_interface->pid);
+	    gnrc_rpl_instance_t *inst = gnrc_rpl_instance_get(GNRC_RPL_DEFAULT_INSTANCE);
+            if (inst)
+                gnrc_rpl_instance_remove(inst);
 	    gnrc_rpl_root_init(GNRC_RPL_DEFAULT_INSTANCE, &addr, false, false);
-            gnrc_ipv6_nib_change_rtr_adv_iface(netif, true);
+
+            // Enable router advertisements on wireless interface
+	    gnrc_ipv6_nib_change_rtr_adv_iface(netif, true);
+
             wireless_interface = netif;
 	    printf("Set wireless IP data.\n");
         }
