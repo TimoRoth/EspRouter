@@ -73,7 +73,7 @@ static int set_ips(void)
         return -1;
     }
     ipv6_addr_set_aiid(&prefix, iid.uint8);
-    if (gnrc_netif_ipv6_addr_add(wireless_interface, &addr, 64, 0) < 0) {
+    if (gnrc_netif_ipv6_addr_add(wireless_interface, &prefix, 64, 0) < 0) {
         printf("Failed setting outer address.\n");
         return -1;
     }
