@@ -16,8 +16,8 @@
 
 static msg_t main_msg_queue[16];
 
-static const gnrc_netif_t *border_interface = NULL;
-static const gnrc_netif_t *wireless_interface = NULL;
+static gnrc_netif_t *border_interface = NULL;
+static gnrc_netif_t *wireless_interface = NULL;
 
 static int find_interfaces(void)
 {
@@ -49,24 +49,32 @@ static int find_interfaces(void)
 
 static int set_ips(void)
 {
-    ipv6_addr_t addr, prefix, defroute = IPV6_ADDR_UNSPECIFIED;
-
+#if defined(BR_IPV6_ADDR) && defined(BR_IPV6_ADDR_LEN)
     // Add configured outer address
+    ipv6_addr_t addr;
     ipv6_addr_from_str(&addr, BR_IPV6_ADDR);
     if (gnrc_netif_ipv6_addr_add(border_interface, &addr, BR_IPV6_ADDR_LEN, 0) < 0) {
         printf("Failed setting outer address.\n");
         return -1;
     }
+#endif
 
+#ifdef BR_IPV6_DEF_RT
     // Add default route
+    ipv6_addr_t defroute = IPV6_ADDR_UNSPECIFIED;
     ipv6_addr_from_str(&addr, BR_IPV6_DEF_RT);
     if (gnrc_ipv6_nib_ft_add(&defroute, 0, &addr, border_interface->pid, 0) < 0) {
         printf("Failed setting default route.\n");
         return -1;
     }
+#else
+    // Turn off router advert on outer interface, enables address auto config.
+    gnrc_ipv6_nib_change_rtr_adv_iface(border_interface, false);
+#endif
 
     // Add inner address based on prefix and interface iid
     eui64_t iid;
+    ipv6_addr_t prefix;
     ipv6_addr_from_str(&prefix, BR_IPV6_PREFIX);
     if (gnrc_netapi_get(wireless_interface->pid, NETOPT_IPV6_IID, 0, &iid, sizeof(iid)) < 0) {
         printf("Failed getting wireless interface iid.\n");
