@@ -8,7 +8,7 @@ BOARD ?= wittycloud
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
 USEMODULE += gnrc_netdev_default auto_init_gnrc_netif
-USEMODULE += gnrc_ipv6_nib_6ln
+USEMODULE += gnrc_ipv6_default
 USEMODULE += gnrc_icmpv6_echo
 USEMODULE += gnrc_udp gnrc_sock_udp
 USEMODULE += gnrc_rpl auto_init_gnrc_rpl
