@@ -43,8 +43,9 @@ IPV6_DEF_RT ?= fd19:aaaa::2
 CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\"
 ifeq (0,$(IPV6_AUTO))
   CFLAGS += -DBR_IPV6_ADDR=\"$(IPV6_ADDR)\" -DBR_IPV6_ADDR_LEN=$(IPV6_ADDR_LEN) -DBR_IPV6_DEF_RT=\"$(IPV6_DEF_RT)\"
-else
-  CFLAGS += -DGNRC_NETIF_IPV6_ADDRS_NUMOF=4
 endif
+
+# Might need more than the default of 2 addresses.
+CFLAGS += -DGNRC_NETIF_IPV6_ADDRS_NUMOF=4
 
 include $(RIOTBASE)/Makefile.include

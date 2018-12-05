@@ -67,10 +67,10 @@ static int set_ips(void)
         printf("Failed setting default route.\n");
         return -1;
     }
-#else
-    // Turn off router advert on outer interface, enables address auto config.
-    gnrc_ipv6_nib_change_rtr_adv_iface(border_interface, false);
 #endif
+
+    // Turn off router advert on outer interface, it's really not our job.
+    gnrc_ipv6_nib_change_rtr_adv_iface(border_interface, false);
 
     // Add inner address based on prefix and interface iid
     eui64_t iid;
