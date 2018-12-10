@@ -8,7 +8,7 @@ BOARD ?= wittycloud
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
 USEMODULE += gnrc_netdev_default auto_init_gnrc_netif
-USEMODULE += gnrc_ipv6_default
+USEMODULE += gnrc_sixlowpan_default
 USEMODULE += gnrc_icmpv6_echo
 USEMODULE += gnrc_udp gnrc_sock_udp
 USEMODULE += gnrc_rpl auto_init_gnrc_rpl
@@ -28,7 +28,7 @@ USEMODULE += xtimer
 # which is not needed in a production environment but helps in the
 # development process:
 DEVELHELP ?= 1
-CFLAGS += -DDEBUG_ASSERT_VERBOSE
+CFLAGS += -DDEVELHELP -DDEBUG_ASSERT_VERBOSE
 
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 1
