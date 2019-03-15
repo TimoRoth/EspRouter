@@ -80,9 +80,10 @@ static int set_ips(void)
         printf("Failed getting wireless interface iid.\n");
         return -1;
     }
+
     ipv6_addr_set_aiid(&prefix, iid.uint8);
     if (gnrc_netif_ipv6_addr_add(wireless_interface, &prefix, 64, 0) < 0) {
-        printf("Failed setting outer address.\n");
+        printf("Failed setting inner address.\n");
         return -1;
     }
 
@@ -108,6 +109,14 @@ static int set_ips(void)
         return -1;
     }
 #endif
+
+    iid.uint64.u64 = 0;
+    iid.uint8[7] = 1;
+    ipv6_addr_set_aiid(&prefix, iid.uint8);
+    if (gnrc_netif_ipv6_addr_add(wireless_interface, &prefix, 64, 0) < 0) {
+        printf("Failed setting inner default address.\n");
+        return -1;
+    }
 
     return 0;
 }

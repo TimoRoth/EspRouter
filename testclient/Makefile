@@ -33,4 +33,12 @@ CFLAGS += -DDEVELHELP -DDEBUG_ASSERT_VERBOSE
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 1
 
+# Prefix is assumed to be /64
+IPV6_PREFIX ?= fd19:ffff::
+IPV6_DEFRTR ?= fd19:ffff::1
+IPV6_AUTO ?= 0
+ifeq (0,$(IPV6_AUTO))
+  CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\" -DBR_IPV6_DEFRTR=\"$(IPV6_DEFRTR)\"
+endif
+
 include $(RIOTBASE)/Makefile.include
