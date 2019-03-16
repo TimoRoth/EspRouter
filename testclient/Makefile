@@ -14,6 +14,7 @@ USEMODULE += gnrc_udp gnrc_sock_udp
 USEMODULE += gnrc_rpl auto_init_gnrc_rpl
 USEMODULE += gnrc_pktdump
 USEMODULE += gcoap
+USEMODULE += gnrc_pktbuf_cmd
 
 # ESP NOW
 CFLAGS += -DESP_NOW_SOFT_AP_PASS=\"ThisistheRIOTporttoESP\" -DESP_NOW_CHANNEL=6

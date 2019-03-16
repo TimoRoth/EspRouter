@@ -15,6 +15,7 @@ USEMODULE += gnrc_sixlowpan_border_router_default
 USEMODULE += gnrc_rpl auto_init_gnrc_rpl
 USEMODULE += fib netopt
 USEMODULE += gnrc_icmpv6_echo
+USEMODULE += gnrc_pktbuf_cmd
 
 # ESP NOW
 CFLAGS += -DESP_NOW_SOFT_AP_PASS=\"ThisistheRIOTporttoESP\" -DESP_NOW_CHANNEL=6
