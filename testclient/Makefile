@@ -40,6 +40,8 @@ IPV6_DEFRTR ?= fd19:ffff::1
 IPV6_AUTO ?= 0
 ifeq (0,$(IPV6_AUTO))
   CFLAGS += -DBR_IPV6_PREFIX=\"$(IPV6_PREFIX)\" -DBR_IPV6_DEFRTR=\"$(IPV6_DEFRTR)\"
+  # Required for non-link-local default route
+  CFLAGS += -DGNRC_IPV6_NIB_CONF_ARSM=1
 endif
 
 include $(RIOTBASE)/Makefile.include
